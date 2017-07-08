@@ -10,57 +10,87 @@ namespace LuckyNumbers
     {
         static void Main(string[] args)
         {
-            //Part 1
-            //Ask the user for a starting number for the lowest number in the number range.
-            //Ask the user for an ending number for the highest number in the number range.
-            //Ask the user to guess the 6 numbers the user thinks will be the lucky numbers generated within the number range.
-            //Numbers must be stored in an array
-            //Array must be populated using a loop
-            //If the user enters a number that is outside of the range set, prompt the user to give you a valid number. Do this until the user enters a valid number.
+            string cont;
+            do
+            {
+                Console.Clear();
+                Lottery();
+                
+                Console.WriteLine("Would you like to play again? Yes/No");
+                cont = Console.ReadLine().ToLower();
 
-            //Part 2
-            //The program should randomly generate 6 numbers using a loop
-            //The randomly generated numbers should be stored in an array
-            //Numbers should be displayed to the console as such and using a loop (Numbers below are for example only. Format must be exact):
-            //Lucky Number: 12
-            //Lucky Number: 47
-            //Lucky Number: 28
-            //Lucky Number: 3
-            //Lucky Number: 19
-            //Lucky Number: 35
+                if (cont == "no")
+                {
+                    Console.WriteLine("Thanks for playing!");
+                    Environment.Exit(0);
+                }
+            }
+            while (cont == "yes");
+            
+        }
+        static void Lottery()
+        {
+            //Aligning text, formatting and displaying title and instruction 
+            double jackpot = 1000000d;
+            Console.SetCursorPosition((Console.WindowWidth / 3), 0);
+            Console.WriteLine("The Lucky Numbers Game");
+            Console.SetCursorPosition((Console.WindowWidth / 3), 1);
+            Console.WriteLine("______________________");
+            Console.SetCursorPosition((Console.WindowWidth / 3), 2);
+            Console.WriteLine((jackpot.ToString("C2")) + " JACKPOT!!");
+            Console.Write("--------------------------------------------------------------------------------");
+            Console.WriteLine("Instructions:\nYou will enter a set of numbers to determine the range the game will use." +
+                "\nYou will then be asked to select 6 numbers. For every number you match to \nthe LUCKY NUMBERS, you earn 1/6th of the Jackpot.");
+            Console.WriteLine("--------------------------------------------------------------------------------");
 
-            //Part 3
-            //Hard - code a value for the jackpot amount and let the user know what the jackpot amount is at some point you decide in the program.
-            //The program should count the number of correctly guessed numbers and output to the console to notify the user.Example:
-            //You guessed 3 numbers correctly!
-            //The program should calculate the user's winnings based on the number of numbers guessed correctly.
+            //Asking user to set a number range to begin the game
+            Console.SetCursorPosition((Console.WindowWidth / 3), 10);
+            Console.Write("Lowest:");
+            int min = int.Parse(Console.ReadLine());
+            Console.SetCursorPosition((Console.WindowWidth / 2), 10);
+            Console.Write("Highest:");
+            int max = int.Parse(Console.ReadLine());
 
-            //The user's winnings should be output to the console. Example:
-            //You won $256, 877.23!
+            int[] numberUserRange = new int[6];
+            for (int i = 0; i < numberUserRange.Length; i++)
+            {
+                Console.Write("\nPick " + (i + 1) + ": ");
+                numberUserRange[i] = int.Parse(Console.ReadLine());
+                while (numberUserRange[i] < min || numberUserRange[i] > max)
+                {
+                    Console.WriteLine("Number is out of range.\n");
+                    Console.Write("Pick " + (i + 1) + ": ");
+                    numberUserRange[i] = int.Parse(Console.ReadLine());
+                }
+            }
 
-            //Part 4
-            //Ask the user if the user would like to play again.
-            //If the user says yes, then the program should run again from the beginning.
-            //If the user says no, then the program should say "Thanks for playing!"(Must be exact statement).
+            //Using a for loop to randomly add elements into the luckyNumbers array.
+            Console.WriteLine();
+            Random lucky = new Random();
+            int[] luckyNumbers = new int[6];
+            for (int i = 0; i < luckyNumbers.Length; i++)
+            {
+                luckyNumbers[i] = lucky.Next(min, max);
+            }
 
-            //Stretch Tasks:
-            //Make your program ensure none of the generated numbers are repeated.For example, the following is a valid output:
-            //Lucky Number: 12
-            //Lucky Number: 47
-            //Lucky Number: 28
-            //Lucky Number: 3
-            //Lucky Number: 19
-            //Lucky Number: 35
-            //But, the following output is invalid because 12 is generated twice.
-            //Lucky Number: 12
-            //Lucky Number: 47
-            //Lucky Number: 28
-            //Lucky Number: 3
-            //Lucky Number: 19
-            //Lucky Number: 12
-            //If there is a repeated number, replace it with a new number.Do this until there are no repeated numbers.
+            //Printing each element in the luckyNumbers array using a foreach loop.
+            foreach (int num in luckyNumbers)
+            {
+                Console.Write("Lucky Number: " + num);
+            }
 
-
+            //Checking the users numbers against the lucky numbers to see how many they matched.
+            int match = 0;
+            foreach (int num in numberUserRange)
+            {
+                if (num == luckyNumbers[0] || num == luckyNumbers[1] || num == luckyNumbers[2] || num == luckyNumbers[3] || num == luckyNumbers[4] || num == luckyNumbers[5])
+                {
+                    match++;
+                }
+            }
+            Console.WriteLine("You matched {0} lucky number(s) correctly!", match);
+            double winnings = ((jackpot / 6) * match);
+            Console.WriteLine("You won " + winnings.ToString("C2")+"!");
         }
     }
 }
