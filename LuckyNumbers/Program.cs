@@ -51,11 +51,13 @@ namespace LuckyNumbers
             Console.Write("Highest:");
             int max = int.Parse(Console.ReadLine());
 
+            //Asking user for their picks
             int[] numberUserRange = new int[6];
             for (int i = 0; i < numberUserRange.Length; i++)
             {
                 Console.Write("\nPick " + (i + 1) + ": ");
                 numberUserRange[i] = int.Parse(Console.ReadLine());
+                //Ensuring the user to enters a number within the range
                 while (numberUserRange[i] < min || numberUserRange[i] > max)
                 {
                     Console.WriteLine("Number is out of range.\n");
