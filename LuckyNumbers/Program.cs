@@ -78,7 +78,7 @@ namespace LuckyNumbers
             //Printing each element in the luckyNumbers array using a foreach loop.
             foreach (int num in luckyNumbers)
             {
-                Console.Write("Lucky Number: " + num);
+                Console.WriteLine("Lucky Number: " + num);
             }
 
             //Checking the users numbers against the lucky numbers to see how many they matched.
